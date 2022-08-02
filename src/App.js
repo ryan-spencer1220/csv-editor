@@ -3,8 +3,8 @@ import FileUploader from "./components/FileUploader";
 
 function App() {
   return (
-    <div className="App">
-      <h1>School Directory!</h1>
+    <div className="container m-4">
+      <h1 className="text-center text-2xl text-primary">School Directory!</h1>
       <FileUploader />
     </div>
   );

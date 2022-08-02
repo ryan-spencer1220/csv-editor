@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Papa from "papaparse";
 import { app } from "../firebase/config";
 import { CSVLink } from "react-csv";
+import NewEntry from "./NewEntry";
 
 const FileUploader = () => {
   const [csvData, setCsvData] = useState([]);
@@ -41,10 +41,17 @@ const FileUploader = () => {
     });
   };
 
-  const deleteRow = (v) => {
-    this.setState((prevState) => ({
-      value: prevState.value.filter((el) => el.v !== v),
-    }));
+  // const deleteRow = (v) => {
+  //   this.setState((prevState) => ({
+  //     value: prevState.value.filter((el) => el.v !== v),
+  //   }));
+  // };
+
+  useEffect(() => {}, [rowValues]);
+  const esdFormData = (data) => {
+    console.log("Form Submitted!");
+    rowValues.push(data);
+    setRowValues([...rowValues]);
   };
 
   const csvReport = {
@@ -54,10 +61,12 @@ const FileUploader = () => {
   };
 
   return (
-    <div>
+    <div className="container p-10">
       <input type="file" name="file" accept=".csv" onChange={changeHandler} />
       <CSVLink {...csvReport}>Export to CSV</CSVLink>
-      <table>
+      {fileName && <NewEntry fileName={fileName} esdFormData={esdFormData} />}
+
+      <table className="table">
         <thead>
           <tr>
             {columnHeadings.map((rows, index) => {
@@ -77,9 +86,6 @@ const FileUploader = () => {
           })}
         </tbody>
       </table>
-      {/* {console.log("DATA: " + csvData)}
-      {console.log("HEADINGS: " + columnHeadings)}
-      {console.log("VALUES: " + rowValues)} */}
     </div>
   );
 };
