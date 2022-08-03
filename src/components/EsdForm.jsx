@@ -1,17 +1,16 @@
 import React, { useState } from "react";
-import { nanoid } from "nanoid";
 
-const NewEntry = ({ fileName, esdFormData }) => {
+const EsdForm = ({ esdFormData, objectFormData }) => {
   const [addFormData, setAddFormData] = useState({
-    esdName: "",
-    esdCode: "",
-    addressLine1: "",
-    addressLine2: "",
-    state: "",
-    zipCode: "",
-    administratorName: "",
-    phone: "",
-    email: "",
+    "ESD Name": "",
+    "ESD Code": "",
+    AddressLine1: "",
+    AddressLine2: "",
+    State: "",
+    ZipCode: "",
+    "Administrator Name": "",
+    Phone: "",
+    Email: "",
   });
 
   const handleAddFormChange = (event) => {
@@ -26,23 +25,6 @@ const NewEntry = ({ fileName, esdFormData }) => {
     setAddFormData(newFormData);
   };
 
-  // const handleAddFormSubmit = (event) => {
-  //   event.preventDefault();
-  //   const newRow = {
-  //     id: nanoid(),
-  //     esdName: addFormData.esdName,
-  //     esdCode: addFormData.esdCode,
-  //     addressLine1: addFormData.addressLine1,
-  //     addressLine2: addFormData.addressLine2,
-  //     state: addFormData.state,
-  //     zipCode: addFormData.zipCode,
-  //     administratorName: addFormData.administratorName,
-  //     phone: addFormData.phone,
-  //     email: addFormData.email,
-  //   };
-  //   esdFormData(newRow);
-  // };
-
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
     const newRow = [
@@ -56,13 +38,25 @@ const NewEntry = ({ fileName, esdFormData }) => {
       addFormData.phone,
       addFormData.email,
     ];
+    const newObject = {
+      "ESD Name": addFormData.esdName,
+      "ESD Code": addFormData.esdCode,
+      AddressLine1: addFormData.addressLine1,
+      AddressLine2: addFormData.addressLine2,
+      State: addFormData.state,
+      ZipCode: addFormData.zipCode,
+      "Administrator Name": addFormData.administratorName,
+      Phone: addFormData.phone,
+      Email: addFormData.email,
+    };
     esdFormData(newRow);
+    objectFormData(newObject);
   };
 
   return (
     <form
       onSubmit={handleAddFormSubmit}
-      className="grid grid-cols-4 gap-4 m-4 card bg-slate-200 p-10 m-10 shadow-xl"
+      className="grid grid-cols-4 gap-4 card bg-slate-200 p-10 m-10 shadow-xl"
     >
       <label>ESD Name</label>
       <input
@@ -125,4 +119,4 @@ const NewEntry = ({ fileName, esdFormData }) => {
   );
 };
 
-export default NewEntry;
+export default EsdForm;

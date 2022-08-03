@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Papa from "papaparse";
 import { app } from "../firebase/config";
 import { CSVLink } from "react-csv";
-import NewEntry from "./NewEntry";
+import EsdForm from "./EsdForm";
 
 const FileUploader = () => {
   const [csvData, setCsvData] = useState([]);
@@ -41,32 +41,41 @@ const FileUploader = () => {
     });
   };
 
-  // const deleteRow = (v) => {
-  //   this.setState((prevState) => ({
-  //     value: prevState.value.filter((el) => el.v !== v),
-  //   }));
-  // };
-
-  useEffect(() => {}, [rowValues]);
   const esdFormData = (data) => {
-    console.log("Form Submitted!");
     rowValues.push(data);
     setRowValues([...rowValues]);
   };
 
-  const csvReport = {
+  const objectFormData = (data) => {
+    csvData.push(data);
+    setCsvData([...csvData]);
+  };
+
+  let csvReport = {
     filename: fileName,
     headers: columnHeadings,
     data: csvData,
   };
 
+  console.log("CSV DATA:" + rowValues);
+
   return (
     <div className="container p-10">
-      <input type="file" name="file" accept=".csv" onChange={changeHandler} />
-      <CSVLink {...csvReport}>Export to CSV</CSVLink>
-      {fileName && <NewEntry fileName={fileName} esdFormData={esdFormData} />}
+      <input
+        className="px-10"
+        type="file"
+        name="file"
+        accept=".csv"
+        onChange={changeHandler}
+      />
+      <CSVLink className="btn" {...csvReport}>
+        Export to CSV
+      </CSVLink>
+      {fileName && (
+        <EsdForm esdFormData={esdFormData} objectFormData={objectFormData} />
+      )}
 
-      <table className="table">
+      <table className="table shadow-lg">
         <thead>
           <tr>
             {columnHeadings.map((rows, index) => {
@@ -79,7 +88,11 @@ const FileUploader = () => {
             return (
               <tr key={index}>
                 {value.map((v, i) => {
-                  return <td key={i}>{v}</td>;
+                  return (
+                    <>
+                      <td key={i}>{v}</td>
+                    </>
+                  );
                 })}
               </tr>
             );
